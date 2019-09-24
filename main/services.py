@@ -4,12 +4,12 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 import time 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
-from django.core.cache import cache
+from django.core.cache import cache, caches
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 def cacheUpdate(value,var):
-        cache.set('value',var.value,timeout=CACHE_TTL)
+        cache.set('value',var,timeout=CACHE_TTL)
         # time.sleep(20)
-        print("Cache Updated")
+        print("Redis Cache Updated")
 class CacheUpdateThread(threading.Thread):
     def __init__(self, value, var, *args, **kwargs):
         self.value = value
@@ -19,4 +19,15 @@ class CacheUpdateThread(threading.Thread):
     def run(self):
         cacheUpdate(self.value, self.var)
 
+def memcacheUpdate(value,var):
+        caches['memcache'].set('value',var,timeout=CACHE_TTL)
+        # time.sleep(20)
+        print("Memcache Cache Updated")
+class MemCacheUpdateThread(threading.Thread):
+    def __init__(self, value, var, *args, **kwargs):
+        self.value = value
+        self.var = var
+        super(MemCacheUpdateThread, self).__init__(*args, **kwargs)
     
+    def run(self):
+        memcacheUpdate(self.value, self.var)

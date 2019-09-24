@@ -4,7 +4,7 @@ from django.core.cache import cache, caches
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
-from .services import CacheUpdateThread
+from .services import CacheUpdateThread, MemCacheUpdateThread
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 import threading
 
@@ -18,14 +18,14 @@ def get_var(request):
 	else:
 		value = Variable.objects.get(pk=1)
 		cache.set('value',value,timeout=CACHE_TTL)
-		print("Cache Set")
+		print("Cache Set for Objects")
 	
 	return JsonResponse({"value":value.value})
 	# {"value": 7}
 
 
 # @cache_page(CACHE_TTL)
-def post_var(request):
+def get_post_var(request):
 	success = 0
 	try:
 		var = Variable.objects.get(pk=1)
@@ -33,7 +33,7 @@ def post_var(request):
 			var.value=1
 		else:
 			var.value = 13
-		CacheUpdateThread('value',var).start()
+		CacheUpdateThread('value',var.value).start()
 		print("out of new thread")
 		var.save()
 		
@@ -42,16 +42,32 @@ def post_var(request):
 		pass
 
 	return JsonResponse({"success":success,"value":var.value})
+def get_post_mem_var(request):
+	success = 0
+	try:
+		var = Variable.objects.get(pk=1)
+		if (var.value==13):
+			var.value=1
+		else:
+			var.value = 13
+		MemCacheUpdateThread('value',var.value).start()
+		print("out of new thread")
+		var.save()
+		
+		success = 1
+	except Exception as e:
+		pass
 
-def get_memcached_var(request):
+	return JsonResponse({"success":success,"value":var.value})
+def get_mem_var(request):
 	if 'value' in caches['memcache']:
 		print("Used Cache")
 		value = caches['memcache'].get('value')
 		
 	else:
-		value = Variable.objects.get(pk=1).value
+		value = Variable.objects.get(pk=1)
 		caches['memcache'].set('value',value,timeout=CACHE_TTL)
-		print("Cache Set")
+		print("Cache Set for Objects")
 	
-	return JsonResponse({"value":value})
+	return JsonResponse({"value":value.value})
 	
