@@ -1,7 +1,7 @@
-Django==2.1.7
+Django>=2.1.7
 django-redis==4.10.0
 Pillow==6.1.0
-pycrypto==2.6.1
+pycrypto>=2.6.1
 python-memcached==1.59
 python-redis-lock==3.3.1
 pytz==2019.2
