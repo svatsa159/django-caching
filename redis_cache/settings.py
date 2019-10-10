@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+import mongoengine
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -71,6 +71,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'redis_cache.wsgi.application'
 
 
+mongoengine.connect('caching',host="mongodb://127.0.0.1",port=27017)
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -136,4 +137,4 @@ CACHES = {
 }
 
 # Cache time to live
-CACHE_TTL = 5
+CACHE_TTL = 10
