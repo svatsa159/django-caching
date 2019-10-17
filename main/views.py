@@ -12,17 +12,22 @@ from .models import DataMongo
 
 # @cache_page(CACHE_TTL)
 def get_var(request):
+	fe = []
 	if 'value' in cache:
 		print("Used Cache")
+		fe.append("Used Cache")
 		value = cache.get('value')
 		
 	else:
+		print("Set Cache")
+		fe.append("Set Cache")
 		value = DataMongo.objects(cached=78)
 		cache.set('value',value,timeout=CACHE_TTL)
-	fe = []
+	
 	data = value.to_json()
-	for c in range(0,40000):
+	for c in range(0,10000):
 		fe.append(data)
+	
 	return JsonResponse({"value":fe})
 
 	
@@ -30,7 +35,7 @@ def get_no_var(request):
 	value = DataMongo.objects(cached=78)
 	fe = []
 	data = value.to_json()
-	for c in range(0,40000):
+	for c in range(0,10000):
 		fe.append(data)
 	return JsonResponse({"value":fe})
 
