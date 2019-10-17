@@ -33,7 +33,7 @@ def get_var(request):
 	
 def get_no_var(request):
 	value = DataMongo.objects(cached=78)
-	fe = []
+	fe.append("No Cache")
 	data = value.to_json()
 	for c in range(0,10000):
 		fe.append(data)
