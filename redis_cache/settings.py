@@ -148,4 +148,4 @@ CACHES = {
 }
 
 # Cache time to live
-CACHE_TTL = 10000
+CACHE_TTL = 10
