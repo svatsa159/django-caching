@@ -21,7 +21,7 @@ def get_var(request):
 		cache.set('value',value,timeout=CACHE_TTL)
 	fe = []
 	data = value.to_json()
-	for c in range(0,40):
+	for c in range(0,40000):
 		fe.append(data)
 	return JsonResponse({"value":fe})
 
@@ -30,7 +30,7 @@ def get_no_var(request):
 	value = DataMongo.objects(cached=78)
 	fe = []
 	data = value.to_json()
-	for c in range(0,40):
+	for c in range(0,40000):
 		fe.append(data)
 	return JsonResponse({"value":fe})
 
