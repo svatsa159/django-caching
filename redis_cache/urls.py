@@ -20,6 +20,7 @@ from main import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('get/',views.get_var),
+    path('noget/',views.get_no_var),
     path('post/',views.get_post_var),
     path('getmem/',views.get_mem_var),
     path('postmem/',views.get_post_mem_var)

@@ -19,20 +19,25 @@ def get_var(request):
 	else:
 		value = DataMongo.objects(cached=78)
 		cache.set('value',value,timeout=CACHE_TTL)
-		print("Cache Set for Objects")
-	# value = Variable.objects.get(pk=1)
-	# dat = DataMongo(name='svsc')
-	# dat.cached=56
-	# dat.save()
-	# dataMongo = DataMongo.objects.all()
-	# print(dataMongo[4].to_json())
+	fe = []
+	data = value.to_json()
+	for c in range(0,40):
+		fe.append(data)
+	return JsonResponse({"value":fe})
 
-	return JsonResponse({"value":value.to_json()})
-	# {"value": 7}
-
+	
+def get_no_var(request):
+	value = DataMongo.objects(cached=78)
+	fe = []
+	data = value.to_json()
+	for c in range(0,40):
+		fe.append(data)
+	return JsonResponse({"value":fe})
 
 # @cache_page(CACHE_TTL)
 def get_post_var(request):
+	frrr = request.POST.get("fre")
+	print(frrr)
 	success = 0
 	try:
 		var = DataMongo.objects(cached=78)[0]
