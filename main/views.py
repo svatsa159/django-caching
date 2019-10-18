@@ -44,7 +44,7 @@ def get_no_var(request):
 	fe=[]
 	# fe.append("No Cache")
 	
-	for c in range(0,10):
+	for c in range(0,2):
 		# value = DataMongo.objects(cached=78)
 		myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 		mydb = myclient["caching"]
