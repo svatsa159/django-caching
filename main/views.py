@@ -16,7 +16,7 @@ def get_var(request):
 	if 'value' in cache:
 		print("Used Cache")
 		# fe.append("Used Cache")
-		for c in range(0,10):
+		for c in range(0,2):
 			value = cache.get('value')
 			fe.append(value['name'])
 		
@@ -28,7 +28,7 @@ def get_var(request):
 		mydb = myclient["caching"]
 		mycol = mydb["data_mongo"]
 		
-		for c in range(0,10):
+		for c in range(0,2):
 			
 			
 			value = mycol.find_one({"cached":78})
