@@ -8,37 +8,51 @@ from .services import CacheUpdateThread, MemCacheUpdateThread
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 import threading
 from .models import DataMongo
-
-
+import json
+import pymongo
 # @cache_page(CACHE_TTL)
 def get_var(request):
 	fe = []
 	if 'value' in cache:
 		print("Used Cache")
-		fe.append("Used Cache")
-		value = cache.get('value')
+		# fe.append("Used Cache")
+		for c in range(0,10):
+			value = cache.get('value')
+			fe.append(value['name'])
+		
 		
 	else:
 		print("Set Cache")
-		fe.append("Set Cache")
-		value = DataMongo.objects(cached=78)
+		# fe.append("Set Cache")
+		myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+		mydb = myclient["caching"]
+		mycol = mydb["data_mongo"]
+		
+		for c in range(0,10):
+			
+			
+			value = mycol.find_one({"cached":78})
+			# value = DataMongo.objects(cached=78)
+			fe.append(value['name'])
 		cache.set('value',value,timeout=CACHE_TTL)
 	
-	data = value.to_json()
-	for c in range(0,10000):
-		fe.append(data)
-	
-	return JsonResponse({"value":fe})
+	return JsonResponse(str(fe),safe=False)
 
 	
 def get_no_var(request):
-	value = DataMongo.objects(cached=78)
+	
 	fe=[]
-	fe.append("No Cache")
-	data = value.to_json()
-	for c in range(0,10000):
-		fe.append(data)
-	return JsonResponse({"value":fe})
+	# fe.append("No Cache")
+	
+	for c in range(0,10):
+		# value = DataMongo.objects(cached=78)
+		myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+		mydb = myclient["caching"]
+		mycol = mydb["data_mongo"]
+		value = mycol.find_one({"cached":78})
+		# print(value['name'])
+		fe.append(value['name'])
+	return JsonResponse(str(fe),safe=False)
 
 # @cache_page(CACHE_TTL)
 def get_post_var(request):
