@@ -16,7 +16,7 @@ def get_var(request):
 	if 'value' in cache:
 		print("Used Cache")
 		# fe.append("Used Cache")
-		for c in range(0,4):
+		for c in range(0,2):
 			value = cache.get('value')
 			fe.append(value['name'])
 		
@@ -28,7 +28,7 @@ def get_var(request):
 		mydb = myclient["caching"]
 		mycol = mydb["data_mongo"]
 		value = mycol.find_one({"cached":78})
-		for c in range(0,4):
+		for c in range(0,2):
 			
 			
 			
@@ -36,7 +36,7 @@ def get_var(request):
 			fe.append(value['name'])
 		cache.set('value',value,timeout=CACHE_TTL)
 	
-	return JsonResponse(str(fe),safe=False)
+	return JsonResponse(fe,safe=False)
 
 	
 def get_no_var(request):
@@ -44,7 +44,7 @@ def get_no_var(request):
 	fe=[]
 	# fe.append("No Cache")
 	print("No Cache")
-	for c in range(0,4):
+	for c in range(0,2):
 		# value = DataMongo.objects(cached=78)
 		myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 		mydb = myclient["caching"]
@@ -52,7 +52,7 @@ def get_no_var(request):
 		value = mycol.find_one({"cached":78})
 		# print(value['name'])
 		fe.append(value['name'])
-	return JsonResponse(str(fe),safe=False)
+	return JsonResponse(fe,safe=False)
 
 # @cache_page(CACHE_TTL)
 def get_post_var(request):
