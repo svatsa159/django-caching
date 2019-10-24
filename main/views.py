@@ -28,7 +28,7 @@ def get_var(request):
 		mydb = myclient["caching"]
 		mycol = mydb["data_mongo"]
 		value = mycol.find_one({"cached":78})
-		for c in range(0,2):
+		for c in range(0,3):
 			
 			
 			
@@ -44,7 +44,7 @@ def get_no_var(request):
 	fe=[]
 	# fe.append("No Cache")
 	print("No Cache")
-	for c in range(0,2):
+	for c in range(0,3):
 		# value = DataMongo.objects(cached=78)
 		myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 		mydb = myclient["caching"]
