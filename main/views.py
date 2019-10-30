@@ -10,6 +10,7 @@ import threading
 from .models import DataMongo
 import json
 import pymongo
+import time
 # @cache_page(CACHE_TTL)
 def get_var(request):
 	fe = []
@@ -53,6 +54,7 @@ def get_no_var(request):
 		# print(value['name'])
 		fe.append(value['name'])
 		myclient.close()
+	time.sleep(.5)
 	return JsonResponse(fe,safe=False)
 
 # @cache_page(CACHE_TTL)
