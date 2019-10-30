@@ -16,7 +16,7 @@ def get_var(request):
 	if 'value' in cache:
 		print("Used Cache")
 		# fe.append("Used Cache")
-		for c in range(0,2):
+		for c in range(0,3):
 			value = cache.get('value')
 			fe.append(value['name'])
 		
@@ -52,6 +52,7 @@ def get_no_var(request):
 		value = mycol.find_one({"cached":78})
 		# print(value['name'])
 		fe.append(value['name'])
+		myclient.close()
 	return JsonResponse(fe,safe=False)
 
 # @cache_page(CACHE_TTL)
