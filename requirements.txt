@@ -5,7 +5,7 @@ pycrypto>=2.6.1
 python-memcached==1.59
 python-redis-lock==3.3.1
 pytz==2019.2
-redis==3.3.8
+redis==4.4.4
 redis-cache==0.1.5
 redis-structures==0.1.7
 six==1.12.0
